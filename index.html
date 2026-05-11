@@ -626,7 +626,10 @@ function saveSetup() {
 }
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────
-function getReservado(p) { return Object.values(p.allocations||{}).reduce((a,b)=>a+(b||0),0); }
+function getReservado(p) {
+  const entregadas = new Set(tiendas.filter(t=>t.entregada).map(t=>t.nombre));
+  return Object.entries(p.allocations||{}).reduce((a,[k,v])=>entregadas.has(k)?a:a+(v||0),0);
+}
 function getDisponible(p) { return Math.max(0,(p.stock||0)-getReservado(p)); }
 function stockPill(val, avail) {
   if(avail===undefined) avail=val;
@@ -652,24 +655,41 @@ function showPage(id) {
 }
 
 // ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+let currentTiendaFilter = null;
+
 function renderSidebar() {
   ['aldi','lidl'].forEach(c => {
     const el = document.getElementById(c+'-tiendas');
     const list = tiendas.filter(t=>t.cadena===c.toUpperCase());
     el.innerHTML = list.map(t => {
-      const cnt = products.filter(p=>Object.keys(p.allocations||{}).includes(t.nombre)).length;
-      return `<div class="tienda-item" style="position:relative;"
-        onmouseenter="this.querySelector('.del-btn').style.opacity='1'"
-        onmouseleave="this.querySelector('.del-btn').style.opacity='0'">
-        <span class="tienda-dot"></span>
-        <span style="flex:1;cursor:pointer" onclick="setFilter('${c.toUpperCase()}')">${t.nombre}</span>
+      const entregada = t.entregada || false;
+      const cnt = products.filter(p=>!entregada&&(p.allocations&&(p.allocations[t.nombre]||0)>0)).length;
+      const active = currentTiendaFilter === t.nombre;
+      return `<div class="tienda-item" style="position:relative;${active?'background:var(--surface2);border-radius:6px;':''}${entregada?'opacity:0.55;':''}"
+        onmouseenter="this.querySelector('.del-btn').style.opacity='1';${!entregada?`this.querySelector('.deliver-btn').style.opacity='1'`:''}"
+        onmouseleave="this.querySelector('.del-btn').style.opacity='0';${!entregada?`this.querySelector('.deliver-btn').style.opacity='0'`:''}">
+        <span class="tienda-dot" style="${entregada?'background:var(--accent2);':''}${active&&!entregada?'background:var(--accent2);':''}"></span>
+        <span style="flex:1;cursor:pointer;${active?'color:var(--accent2);font-weight:600;':''}${entregada?'text-decoration:line-through;color:var(--muted);':''}" onclick="setTiendaFilter('${t.nombre}')">${t.nombre}${entregada?' ✓':''}</span>
         ${cnt?`<span class="tienda-badge">${cnt}</span>`:''}
+        ${!entregada?`<button class="deliver-btn" onclick="marcarEntregada('${t.nombre}')" title="Marcar como entregada"
+          style="opacity:0;transition:opacity .15s;background:none;border:none;color:var(--accent2);cursor:pointer;font-size:16px;padding:0 4px;font-weight:bold;">✓</button>`:''}
         <button class="del-btn" onclick="deleteTienda('${t.nombre}')"
           style="opacity:0;transition:opacity .15s;background:none;border:none;color:var(--danger);cursor:pointer;font-size:14px;padding:0 4px;">✕</button>
       </div>`;
     }).join('');
   });
   renderFilterChips();
+}
+
+function setTiendaFilter(nombre) {
+  if (currentTiendaFilter === nombre) {
+    currentTiendaFilter = null;
+  } else {
+    currentTiendaFilter = nombre;
+    currentFilter = 'ALL';
+  }
+  renderSidebar();
+  renderTable();
 }
 
 function renderFilterChips() {
@@ -679,7 +699,7 @@ function renderFilterChips() {
   ).join('') +
   `<button id="toggle-zero-btn" class="btn btn-ghost" style="font-size:11px;padding:4px 10px;margin-left:8px;opacity:${showZeroStock?1:0.6}" onclick="toggleZeroStock()">${showZeroStock?'Ocultar sin stock ('+zeroCount+')':'Ver sin stock ('+zeroCount+')'}</button>`;
 }
-function setFilter(f){currentFilter=f;renderFilterChips();renderTable();}
+function setFilter(f){currentFilter=f;currentTiendaFilter=null;renderFilterChips();renderSidebar();renderTable();}
 function toggleZeroStock(){showZeroStock=!showZeroStock;renderFilterChips();renderTable();}
 
 // ─── STATS ───────────────────────────────────────────────────────────────────
@@ -706,7 +726,8 @@ function renderTable() {
     const mq=!q||p.nc.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q);
     const mf=currentFilter==='ALL'||p.cadena===currentFilter;
     const mz=showZeroStock||p.stock>0;
-    return mq&&mf&&mz;
+    const mt=!currentTiendaFilter||(p.allocations&&(p.allocations[currentTiendaFilter]||0)>0);
+    return mq&&mf&&mz&&mt;
   });
   const zeroCount=products.filter(p=>(currentFilter==='ALL'||p.cadena===currentFilter)&&p.stock===0).length;
   const toggleBtn=document.getElementById('toggle-zero-btn');
@@ -720,7 +741,7 @@ function renderTable() {
   tbody.innerHTML=filtered.map(p=>{
     const res=getReservado(p),disp=getDisponible(p);
     const allocHtml=Object.entries(p.allocations||{}).filter(([,v])=>v>0)
-      .map(([k,v])=>`<span class="alloc-chip">${k}: ${v}</span>`).join(' ');
+      .map(([k,v])=>`<span class="alloc-chip">${k}: ${v} <span onclick="desasignar('${p.nc}','${k}')" style="cursor:pointer;color:var(--danger);margin-left:4px;font-weight:bold;" title="Desasignar">✕</span></span>`).join(' ');
     const cc=p.cadena==='ALDI'?'#4f8ef7':'#2ecc8f';
     return `<tr>
       <td><span class="nc-code">${p.nc}</span></td>
@@ -843,7 +864,18 @@ function saveDeduccion() {
   toast(`${qty} uds asignadas a ${tienda}`,'success');
 }
 
-// ─── TIENDAS ─────────────────────────────────────────────────────────────────
+function desasignar(nc, tienda) {
+  const p = products.find(x => x.nc === nc);
+  if (!p || !p.allocations || !p.allocations[tienda]) return;
+  const qty = p.allocations[tienda];
+  if (!confirm(`¿Desasignar ${qty} uds de "${tienda}"? El stock volverá a estar disponible.`)) return;
+  delete p.allocations[tienda];
+  addHistory('desasignacion', p.nc, p.desc, +qty, 'Desasignado de: ' + tienda);
+  saveLocal();
+  pushToSheets();
+  renderAll();
+  toast(`${qty} uds desasignadas de ${tienda}`, 'success');
+}
 function openAddTiendaModal(){document.getElementById('t-nombre').value='';openModal('modal-tienda');}
 function saveTienda() {
   const nombre=document.getElementById('t-nombre').value.trim();
@@ -855,6 +887,23 @@ function saveTienda() {
   renderSidebar(); renderPedidoTiendas(); closeModal('modal-tienda');
   toast('Tienda añadida','success');
 }
+function marcarEntregada(nombre) {
+  const t = tiendas.find(x=>x.nombre===nombre);
+  if (!t) return;
+  if (!confirm(`¿Marcar "${nombre}" como entregada? Los materiales asignados dejarán de contar como reservados.`)) return;
+  t.entregada = true;
+  products.forEach(p => {
+    const qty = p.allocations&&p.allocations[nombre];
+    if (qty && qty > 0) {
+      addHistory('entrega', p.nc, p.desc, qty, 'Entregado a: ' + nombre);
+    }
+  });
+  saveLocal();
+  pushToSheets();
+  renderAll();
+  toast(`"${nombre}" marcada como entregada ✓`, 'success');
+}
+
 function deleteTienda(nombre) {
   const hasAlloc=products.some(p=>Object.keys(p.allocations||{}).includes(nombre));
   const msg=hasAlloc?`"${nombre}" tiene stock asignado. ¿Eliminar igualmente?`:`¿Eliminar tienda "${nombre}"?`;
