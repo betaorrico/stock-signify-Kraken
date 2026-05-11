@@ -382,76 +382,128 @@
 <script>
 // ─── STOCK DATA (actualizado 04/03/2026) ─────────────────────────────────────
 const INITIAL_PRODUCTS = [
-  // ALDI (actualizado 01/04/2026)
-  {nc:'910925868741',desc:'PENDIENTE',cadena:'ALDI',stock:12,allocations:{}},
-  {nc:'910925868742',desc:'PENDIENTE',cadena:'ALDI',stock:20,allocations:{}},
-  {nc:'910925868745',desc:'PENDIENTE',cadena:'ALDI',stock:10,allocations:{}},
-  {nc:'910630126126',desc:'PENDIENTE',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'910500188915',desc:'RCS750 3C L2000',cadena:'ALDI',stock:3,allocations:{}},
-  {nc:'910505102266',desc:'DN460B LED20S/830 PSU-E C WH P',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'912500106973',desc:'TC MS-M T 27S/PW930HE PSU VWB WH401 A3',cadena:'ALDI',stock:7,allocations:{}},
-  {nc:'828820203523',desc:'PENDIENTE',cadena:'ALDI',stock:1,allocations:{}},
-  {nc:'912401483278',desc:'ZRS700 CLAMP LOOP GRPL L5000',cadena:'ALDI',stock:15,allocations:{}},
-  {nc:'910500187415',desc:'ZRS750 ICP',cadena:'ALDI',stock:20,allocations:{}},
-  {nc:'911401899182',desc:'RS150B LED9-WB-/830 D78 PSR PI6 WH',cadena:'ALDI',stock:32,allocations:{}},
-  {nc:'910925864230',desc:'LL500Z MB-SW2 L5000 WH',cadena:'ALDI',stock:59,allocations:{}},
-  {nc:'910925864214',desc:'LL500Z2XEPCUWH MAXOS FUSION ACCESORIOS',cadena:'ALDI',stock:77,allocations:{}},
-  {nc:'910925869480',desc:'LL500Z 2xEP CU WH',cadena:'ALDI',stock:30,allocations:{}},
-  {nc:'910925864211',desc:'LL500ZCPE WH MAXOS FUSION ACCESORIOS',cadena:'ALDI',stock:64,allocations:{}},
-  {nc:'910925869437',desc:'LL512T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:5,allocations:{}},
-  {nc:'910925869433',desc:'LL523T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:9,allocations:{}},
-  {nc:'910925869434',desc:'LL546T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:4,allocations:{}},
-  {nc:'822278068840',desc:'LL512X LED62S/840 PSD DA25N 7 WH HE',cadena:'ALDI',stock:10,allocations:{}},
-  {nc:'822278068842',desc:'LL523X LED123S/840 PSD DA25N 7 WH HE',cadena:'ALDI',stock:10,allocations:{}},
-  {nc:'822278069269',desc:'LL523X LED123S/840 PSD DA25N 13 WH HE 3EL',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'912500106971',desc:'TC MS-M T 27S/PW940HE PSU MB WH401 A1',cadena:'ALDI',stock:4,allocations:{}},
-  {nc:'822278069270',desc:'LL512X LED31S/840 PSD WB-OC 7 WH HE',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'822278069271',desc:'LL523X LED62S/840 PSD WB-OC 7 WH HE',cadena:'ALDI',stock:3,allocations:{}},
-  {nc:'910500189015',desc:'RCS750 3C L3000',cadena:'ALDI',stock:3,allocations:{}},
-  {nc:'919030005362',desc:'LUM 250X250 LED40 4000K ON/OF WH',cadena:'ALDI',stock:1,allocations:{}},
-  {nc:'822278069272',desc:'LL523X LED62S/840 PSD WB-OC 13 WH HE 3EL',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'910500188815',desc:'RCS750 3C L1000',cadena:'ALDI',stock:2,allocations:{}},
-  {nc:'910500187715',desc:'ZRS750 EP WH (XTS41-3)',cadena:'ALDI',stock:10,allocations:{}},
-  {nc:'910500187215',desc:'ZRS750 EPSR',cadena:'ALDI',stock:10,allocations:{}},
-  {nc:'911401840684',desc:'RC133V G5 36S/840 PSU W62L62 NOC',cadena:'ALDI',stock:2,allocations:{}},
-  // LIDL (actualizado 01/04/2026)
-  {nc:'822278071406',desc:'Maxos Fusion Panel LED 1138mm, 4200 lm, WB, DALI LL512X LED42S/840 PSD WB WH HE LIDL',cadena:'LIDL',stock:12,allocations:{}},
-  {nc:'822278071407',desc:'Maxos Fusion Panel LED 1700mm, 6300 lm, WB, DALI LL523X LED63S/840 PSD WB WH6FT HE LIDL',cadena:'LIDL',stock:8,allocations:{}},
-  {nc:'822278071408',desc:'Maxos Fusion Panel LED 2300mm, 8400 lm, WB, DALI LL523X LED84S/840 PSD WB WH HE LIDL',cadena:'LIDL',stock:78,allocations:{}},
-  {nc:'822278071409',desc:'Maxos Fusion Panel LED con emergencia 1138mm, 4200 lm, WB, DALI LL512X LED42S/840 PSD WB WHELB3 HE LIDL',cadena:'LIDL',stock:3,allocations:{}},
-  {nc:'822278071410',desc:'Maxos Fusion Panel LED con emergencia 1700mm, 6300 lm, WB, DALI LL523X LED63S/840 PSD WBELB3 HE 6FT LIDL',cadena:'LIDL',stock:21,allocations:{}},
-  {nc:'822278071411',desc:'Maxos Fusion Panel LED con emergencia 2300mm, 8400 lm, WB, DALI LL523X LED84S/840 PSD WB ELB3 WH HE LIDL',cadena:'LIDL',stock:48,allocations:{}},
-  {nc:'910925869437',desc:'LL512T 4x2.5+4x1.5 WH',cadena:'LIDL',stock:1,allocations:{}},
-  {nc:'910925869434',desc:'LL546T 4x2.5+4x1.5 WH',cadena:'LIDL',stock:2,allocations:{}},
-  {nc:'910925864227',desc:'LL500Z PB WH',cadena:'LIDL',stock:108,allocations:{}},
-  {nc:'910925864230',desc:'LL500Z MB-SW2 L5000 WH',cadena:'LIDL',stock:100,allocations:{}},
-  {nc:'910925864764',desc:'Tapa ciega tipo 5 de 1,15m LL500Z BC L1150 WH',cadena:'LIDL',stock:10,allocations:{}},
-  {nc:'910925864236',desc:'Tapa ciega tipo 6 de 2,3m LL500Z BC L2300 WH',cadena:'LIDL',stock:24,allocations:{}},
-  {nc:'828820221317',desc:'Proyector TCMSMX LED 3900lm, 3000K, 568mm VWB WH 3D TCMSMX 39S/930 PSU VWB WH 568 3D',cadena:'LIDL',stock:53,allocations:{}},
-  {nc:'828820221319',desc:'2xProyector TCMSMX LED 3900lm, 3000K, 568mm VWB 3D TCMSMX 2xLED39S/930 PSU VWB WH 568 3D',cadena:'LIDL',stock:10,allocations:{}},
-  {nc:'828820221321',desc:'TCMSMX LED39S/930 PSU HRTC WH568 3D Optica cuadrada',cadena:'LIDL',stock:11,allocations:{}},
-  {nc:'822278073486',desc:'Maxos Fusion Panel 6200lm, 2276mm WB-OC UGR<19 LL523X LED62S-HE/840 PSD WB-OC 13 WH ELB3',cadena:'LIDL',stock:7,allocations:{}},
-  {nc:'828820221337',desc:'Proyector LED DALI 3900lm, 3000K TCMSMX 39S/930 PSD VWB WH 568 3D',cadena:'LIDL',stock:19,allocations:{}},
+  // ALDI (53 referencias - actualizado 11/05/2026)
+  {nc:'910925869437',desc:'LL512T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:29,allocations:{}},
+  {nc:'910925869433',desc:'LL523T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910925869434',desc:'LL546T 4x2.5+4x1.5 WH',cadena:'ALDI',stock:82,allocations:{}},
+  {nc:'822278068840',desc:'LL512X LED62S/840 PSD DA25N 7 WH HE',cadena:'ALDI',stock:1,allocations:{}},
+  {nc:'822278068842',desc:'LL523X LED123S/840 PSD DA25N 7 WH HE',cadena:'ALDI',stock:54,allocations:{}},
+  {nc:'822278069269',desc:'LL523X LED123S/840 PSD DA25N 13 WH HE 3EL',cadena:'ALDI',stock:11,allocations:{}},
+  {nc:'910925869480',desc:'LL500Z 2xEP CU WH',cadena:'ALDI',stock:28,allocations:{}},
+  {nc:'910925864230',desc:'LL500Z MB-SW2 L5000 WH',cadena:'ALDI',stock:285,allocations:{}},
+  {nc:'910925869386',desc:'LL500Z MB-SW2 L3000 WH',cadena:'ALDI',stock:340,allocations:{}},
+  {nc:'910925864227',desc:'LL500Z PB WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910925864218',desc:'LL500Z SMB WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910925864236',desc:'LL500Z BC L2300 WH',cadena:'ALDI',stock:20,allocations:{}},
+  {nc:'913703372009',desc:'DDBC1200',cadena:'ALDI',stock:3,allocations:{}},
+  {nc:'913703081109',desc:'DDMIDC8',cadena:'ALDI',stock:3,allocations:{}},
+  {nc:'913703371509',desc:'PDDEG-S',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910500188815',desc:'RCS750 3C L1000',cadena:'ALDI',stock:14,allocations:{}},
+  {nc:'910500188915',desc:'RCS750 3C L2000',cadena:'ALDI',stock:38,allocations:{}},
+  {nc:'910500189015',desc:'RCS750 3C L3000',cadena:'ALDI',stock:19,allocations:{}},
+  {nc:'910500187415',desc:'ZRS750 ICP',cadena:'ALDI',stock:12,allocations:{}},
+  {nc:'910500187715',desc:'ZRS750 EP WH (XTS41-3)',cadena:'ALDI',stock:13,allocations:{}},
+  {nc:'910500187215',desc:'ZRS750 EPSR',cadena:'ALDI',stock:14,allocations:{}},
+  {nc:'910930009718',desc:'ZRS700 SCP WH SUSP CLAMP (SKB12-3)',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'912401483278',desc:'ZRS700 CLAMP LOOP GRPL L5000',cadena:'ALDI',stock:116,allocations:{}},
+  {nc:'910503910274',desc:'ZRS700 T-BAR SUSP WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'828820221995',desc:'TCAT90 27S/PW930 PSU UE VWB WH',cadena:'ALDI',stock:83,allocations:{}},
+  {nc:'828820221997',desc:'TCAT90 27S/PW940 PSU UE MB WH',cadena:'ALDI',stock:109,allocations:{}},
+  {nc:'822278069270',desc:'LL512X LED31S/840 PSD WB-OC 7 WH HE',cadena:'ALDI',stock:5,allocations:{}},
+  {nc:'822278069271',desc:'LL523X LED62S/840 PSD WB-OC 7 WH HE',cadena:'ALDI',stock:5,allocations:{}},
+  {nc:'822278069272',desc:'LL523X LED62S/840 PSD WB-OC 13 WH HE 3EL',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401890285',desc:'RC132V G6 36S/840 PSU W60L60 NOC',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401806180',desc:'DN145B LED20S/830 PSU II WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401890585',desc:'RC132V G6 36S/840 PSU W60L60 OC',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401807787',desc:'RC159Z SMB W60L60',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910771147840',desc:'RS352B 39S/830 PSU-E WB WH',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401807687',desc:'RC132V G6 34S/830 PSU W60L60 OC',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401834784',desc:'BN126C LED80S/840 PSU L1500',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'911401826885',desc:'WT120C G2 LED40S/840 PSU L1200 BN',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910505100054',desc:'WT120C G2 LED40S/840 PSU ELB3 L1200',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910925868288',desc:'WT490C LED42S/840 PSU WB PI5 L1200',cadena:'ALDI',stock:11,allocations:{}},
+  {nc:'915005378702',desc:'Stratosphere wall lantern anthracite 2xN',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'919030005362',desc:'LUM 250X250 LED40 4000K ON/OF WH',cadena:'ALDI',stock:5,allocations:{}},
+  {nc:'919030005608',desc:'LUM 250X400 LED200 4000K ON/OFF WH',cadena:'ALDI',stock:5,allocations:{}},
+  {nc:'912401483506',desc:'EM151B REC 3S OA/CO NM3 ELP WH IP20',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'912401483507',desc:'EM152C SM 2S OA/CO NM3 ELP WH IP65',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'912401483509',desc:'EM153C SM BKD EXIT SIGN M3 ELP IP65',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910770227584',desc:'BGP307 LED99-4S/740 I DX10  48-76S',cadena:'ALDI',stock:12,allocations:{}},
+  {nc:'912300060466',desc:'BVP111 LED51-4S/740 OFA52',cadena:'ALDI',stock:14,allocations:{}},
+  {nc:'911401899182',desc:'RS150B LED9-WB-/830 D78 PSR PI6 WH',cadena:'ALDI',stock:76,allocations:{}},
+  {nc:'912500100078',desc:'DN462B 11S/830 PSU-E C SI PCC P',cadena:'ALDI',stock:0,allocations:{}},
+  {nc:'910505102266',desc:'DN460B LED20S/830 PSU-E C WH P',cadena:'ALDI',stock:30,allocations:{}},
+  {nc:'910925870948',desc:'LL512X LED61S/840 DIA DA35W 7 WH',cadena:'ALDI',stock:15,allocations:{}},
+  {nc:'910925870952',desc:'LL523X LED123S/840 DIA DA35W 7 WH',cadena:'ALDI',stock:22,allocations:{}},
+  {nc:'910925870951',desc:'LL523X LED123S/840 DIA DA35W 13 ELP3 WH',cadena:'ALDI',stock:32,allocations:{}},
+  // LIDL (65 referencias - actualizado 11/05/2026)
+  {nc:'822278071406',desc:'Maxos Fusion Panel LED 1138mm, 4200 lm, WB, DALI LL512X LED42S/840 PSD WB WH HE LIDL',cadena:'LIDL',stock:3,allocations:{}},
+  {nc:'822278071407',desc:'Maxos Fusion Panel LED 1700mm, 6300 lm, WB, DALI LL523X LED63S/840 PSD WB WH6FT HE LIDL',cadena:'LIDL',stock:20,allocations:{}},
+  {nc:'822278071408',desc:'Maxos Fusion Panel LED 2300mm, 8400 lm, WB, DALI LL523X LED84S/840 PSD WB WH HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278071409',desc:'Maxos Fusion Panel LED con emergencia 1138mm, 4200 lm, WB, DALI LL512X LED42S/840 PSD WB WHELB3 HE LIDL',cadena:'LIDL',stock:5,allocations:{}},
+  {nc:'822278071410',desc:'Maxos Fusion Panel LED con emergencia 1700mm, 6300 lm, WB, DALI  LL523X LED63S/840 PSD WBELB3 HE 6FT LIDL',cadena:'LIDL',stock:23,allocations:{}},
+  {nc:'822278071411',desc:'Maxos Fusion Panel LED con emergencia 2300 mm, 8400 lm, WB, DALI LL523X LED84S/840 PSD WB ELB3 WH HE LIDL',cadena:'LIDL',stock:43,allocations:{}},
+  {nc:'822278072609',desc:'Maxos Fusion Panel LED 1138mm, 4200 lm, Opal, DALI LL512X LED42S/840 PSD O-PC 7 WH HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278072613',desc:'Maxos Fusion Panel LED 1700mm, 6300 lm, Opal, DALI LL523X LED63S/840 PSD O-PC WH HE6FT LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278072607',desc:'Maxos Fusion Panel LED 2300mm, 8400 lm, Opal DALI LL523X LED84S/840 PSD O-PC 7 WH HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278072615',desc:'Maxos Fusion Panel LED con emergencia 1138mm, 4200 lm, Opal, DALI LL512X LED42S/840 PSD O-PC WHELB3HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278072612',desc:'Maxos Fusion Panel LED con emergencia 1700mm, 6300 lm, Opal, DALI  LL523X LED63S/840 PSD O-PC ELB3 HE6FT LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278072611',desc:'Maxos Fusion Panel LED con emergencia 2300 mm, 8400 lm, Opal, DALI LL523X LED84S/840 PSD O-PC ELB3WH HELIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925869437',desc:'LL512T 4x2.5 + 4x1.5 WH Länge: 1138mm Carril  Maxos Fusion',cadena:'LIDL',stock:11,allocations:{}},
+  {nc:'910925869433',desc:'LL523T 4x2.5 + 4x1.5 WH Länge: 2276mm Carril  Maxos Fusion',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925869434',desc:'LL546T 4x2.5 + 4x1.5 WH Länge: 4552mm Carril Maxos Fusion',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925869480',desc:'Alimentación y tapa final de línea LL500Z 2xEP CU WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925864227',desc:'Anclaje para montaje en techos de perfil T LL500Z PB WH',cadena:'LIDL',stock:50,allocations:{}},
+  {nc:'910925864230',desc:'Anclaje para suspender 5m LL500Z MB-SW2 L5000 WH',cadena:'LIDL',stock:430,allocations:{}},
+  {nc:'910925864764',desc:'Tapa ciega tipo 5 de 1,15m (u.e. 1 ud) LL500Z BC L1150 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925864236',desc:'Tapa ciega tipo 6 de 2,3 m (u.e. 1 ud) LL500Z BC L2300 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'828820221317',desc:'Proyector TCMSMX LED 3900lm, 3000K, 568mm VWB WH 3D TCMSMX 39S/930 PSU VWB WH 568 3D',cadena:'LIDL',stock:20,allocations:{}},
+  {nc:'828820221318',desc:'Proyector TCMSMX LED 3900lm, 4000K, 568mm VWB WH 3D TCMSMX 39S/940 PSU VWB WH 568 3D',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'828820221319',desc:'2xProyector TCMSMX LED 3900lm, 3000K, 568mm VWB 3D TCMSMX 2xLED39S/930 PSU VWB WH 568 3D',cadena:'LIDL',stock:7,allocations:{}},
+  {nc:'828820221320',desc:'2xProyector TCMSMX LED 3900lm, 4000K, 568mm VWB 3D TCMSMX 2xLED39S/940 PSU VWB WH 568 3D',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'828820221321',desc:'TCMSMX LED39S/930 PSU HRTC WH568 3D/ Óptica cuadrada',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278069270',desc:'Maxos Fusion Panel 3100lm, 1138mm WB-OC UGR<19 LL512X LED31S-HE/840 PSD WB-OC 7 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278073485',desc:'Maxos Fusion Panel 3100lm, 1138mm WB-OC UGR<19 LL512X LED31S-HE/840 PSD WB-OC 13 ELB3 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278069271',desc:'Maxos Fusion Panel 6200lm, 2276mm WB-OC UGR<19 LL523X LED62S-HE/840 PSD WB-OC 7 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278073486',desc:'Maxos Fusion Panel 6200lm, 2276mm WB-OC UGR<19 LL523X LED62S-HE/840 PSD WB-OC 13 ELB3 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'913703244209',desc:'Sensores DUS90CS ( zona cajas y entrada, para colocar en pilares)',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910925864218',desc:'Anclaje para adosar LL500Z SMB WH',cadena:'LIDL',stock:0,allocations:{}},
   {nc:'912500101330',desc:'DN472B LED30S/830 PSU-E C PCC WH IP 54 GreenSpace, LED',cadena:'LIDL',stock:2,allocations:{}},
-  {nc:'919030005070',desc:'Placa adaptadora 600x600 Downlights',cadena:'LIDL',stock:44,allocations:{}},
-  {nc:'822278071416',desc:'Maxos Fusion Panel LED 1138mm, 4200 lm, 4000K, WB LL512X LED42S/840 PSU WB 7 WH HE LIDL',cadena:'LIDL',stock:1,allocations:{}},
-  {nc:'822278071417',desc:'Maxos Fusion Panel LED con emergencia 1138mm, 4200 lm, 4000K, WB LL512X LED42S/840 PSU WB WHELB3 HE LIDL',cadena:'LIDL',stock:7,allocations:{}},
-  {nc:'828820221830',desc:'Coreline Panel Empotrado 60x60 UGR>19 con emergencia RC132V G6 36S/840 PSU W60L60 OC ELB3',cadena:'LIDL',stock:15,allocations:{}},
+  {nc:'919030005070',desc:'Placa adaptadora 600x600 Downlights',cadena:'LIDL',stock:60,allocations:{}},
+  {nc:'822278071416',desc:'Maxos Fusion Panel LED 1138mm, 4200 lm, 4000K, WB LL512X LED42S/840 PSU WB 7 WH HE LIDL',cadena:'LIDL',stock:2,allocations:{}},
+  {nc:'822278071417',desc:'Maxos Fusion Panel LED con emergencia 1138mm, 4200 lm, 4000K, WB  LL512X LED42S/840 PSU WBELP3HETA35L3LIDL',cadena:'LIDL',stock:15,allocations:{}},
+  {nc:'822278071418',desc:'Maxos Fusion Panel LED 2300 mm, 8400 lm, 4000K, WB LL523X LED84S/840 PSU WB 7 WH HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278071419',desc:'Maxos Fusion Panel LED con emergencia 2300 mm, 8400 lm, 4000K, WB LL523X LED84S/840 PSU WB ELB3 WH HE LIDL',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'911401890285',desc:'Coreline Panel Empotrado 60x60 UGR>19 RC132V G6 36S/840 PSU W60L60 NOC',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'828820221830',desc:'Coreline Panel Empotrado 60x60 UGR>19 con emergencia RC132V G6 36S/840 PSU W60L60 NOC ELB3',cadena:'LIDL',stock:15,allocations:{}},
+  {nc:'911401890585',desc:'Coreline Panel emotrado 60x60 UGR<19 RC132V G6 36S/840 PSU W60L60 OC',cadena:'LIDL',stock:0,allocations:{}},
   {nc:'910505102816',desc:'Coreline Panel Empotrado 60x60 UGR<19 RC132V G6 36S/840 PSU W60L60 OC ELB3',cadena:'LIDL',stock:8,allocations:{}},
+  {nc:'911401890885',desc:'Coreline Panel Empotrado 60x60 DALI UGR<19 RC132V G6 36S/840 PSD W60L60 OC',cadena:'LIDL',stock:0,allocations:{}},
   {nc:'910505102817',desc:'Coreline Panel Empotrado 60x60 DALI UGR<19 RC132V G6 36S/840 PSD W60L60 OC ELB3',cadena:'LIDL',stock:8,allocations:{}},
+  {nc:'911401807787',desc:'Accesorios para adosar pantalla de 60X60  RC159Z SMB W60L60',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'911401823780',desc:'WT120C G2 LED40S/840 PSU L1200 CoreLine LED',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910505100054',desc:'WT120C G2 LED40S/840 PSU L1200 EL3 CoreLine LED-Feuchtraumleuchte mit Notlicht',cadena:'LIDL',stock:0,allocations:{}},
   {nc:'911401552232',desc:'Downlight DN142B 20S/840 PSU-E WR',cadena:'LIDL',stock:1,allocations:{}},
-  {nc:'912500100079',desc:'DN472B LED20S/840 PSU-E C PCC SI IP 54 GreenSpace, LED RAL 9006',cadena:'LIDL',stock:1,allocations:{}},
-  {nc:'910505100076',desc:'Estanca Led 1500mm DALI con emergencia WT120C G2 LED60S/840 PSD ELB3 L1500',cadena:'LIDL',stock:28,allocations:{}},
-  {nc:'913703244209',desc:'Sensores DUS90CS sensor 90 grados para colocar en pilares',cadena:'LIDL',stock:8,allocations:{}},
-  {nc:'911401823780',desc:'WT120C LED40S/840 PSU L1200',cadena:'LIDL',stock:37,allocations:{}},
-  {nc:'913703372009',desc:'DDBC1200-LIDL non Preprogrammed (se coloca uno cada 300 luminarias)',cadena:'LIDL',stock:3,allocations:{}},
-  {nc:'913703081109',desc:'Modulo de entradas On-Off DDMIDC8',cadena:'LIDL',stock:3,allocations:{}},
-  {nc:'913703371509',desc:'Plataforma PDDEG',cadena:'LIDL',stock:1,allocations:{}},
-  {nc:'822278071413',desc:'PENDIENTE',cadena:'LIDL',stock:10,allocations:{}},
-  {nc:'913703333909',desc:'PENDIENTE',cadena:'LIDL',stock:2,allocations:{}},
-  {nc:'822278071412',desc:'PENDIENTE',cadena:'LIDL',stock:2,allocations:{}},
-  {nc:'910925864338',desc:'PENDIENTE',cadena:'LIDL',stock:12,allocations:{}},
+  {nc:'910505103598',desc:'Downlight DN142B 20S/840 PSD-E WR',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'912500109687',desc:'TC TT200 20S/840 PSU-E PCC GR403 GreenSpace, LED',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'912500100079',desc:'DN472B LED20S/840 PSU-E C PCC SI  IP 54 GreenSpace, LED RAL 9006',cadena:'LIDL',stock:2,allocations:{}},
+  {nc:'912401483610',desc:'Rundo62 190-280K-10GGD/840',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'912401483612',desc:'Suspension set parallel 00-00383, W',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'911401899082',desc:'LED Spot RS150B  LED6-WB-/840 D78 PSR PI6 WH',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'915005378702',desc:'Aplique pared Stratosphere wall lantern anthracite 2xN',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'910505100072',desc:'Estanca Led 1500mm DALI  WT120C G2 LED60S/840 PSD L1500',cadena:'LIDL',stock:4,allocations:{}},
+  {nc:'910505100076',desc:'Estanca Led 1500mm DALI con emergencia  WT120C G2 LED60S/840 PSD ELB3 L1500',cadena:'LIDL',stock:28,allocations:{}},
+  {nc:'913703244309',desc:'Sensores DUS30CS  ( sensor 30º para colocar en pilares)',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278069080',desc:'Lumistreet LED 9900lm, 64W, 4000 K BGP292 LED99-4S/740 I PSU  7024 48/60 mm',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'822278069082',desc:'Lumistreet LED 12000lm, 71W, 4000 K BGP293 LED120-4S/740 I PSU  7024 48/60 mm',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'911401871386',desc:'Luminaria FloodLight Mini LED BVP167 LED12/SCCT PSU 10W SWB CE',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'912300024002',desc:'Proyector LED BVP125 LED80-4S/740 PSU OFA52 ALU C1KC3',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'911401823680',desc:'Estanca LED 1500mm WT120C G2 LED34S/840 PSU L1500',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'913703372009',desc:'DDBC1200-LIDL non Preprogrammed( se coloca uno cada 300 luminarias)',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'913703081109',desc:'Modulo de entradas On-Off  DDMIDC8',cadena:'LIDL',stock:0,allocations:{}},
+  {nc:'913703371509',desc:'Plataforma PDDEG-S',cadena:'LIDL',stock:0,allocations:{}},
 ];
+
 const INITIAL_TIENDAS = [
   {nombre:'Aldi Masquefa',cadena:'ALDI'},
   {nombre:'Aldi San Isidro',cadena:'ALDI'},
@@ -618,11 +670,14 @@ function renderSidebar() {
 }
 
 function renderFilterChips() {
+  const zeroCount=products.filter(p=>(currentFilter==='ALL'||p.cadena===currentFilter)&&p.stock===0).length;
   document.getElementById('filter-bar').innerHTML = ['ALL','ALDI','LIDL'].map(f=>
     `<span class="filter-chip ${currentFilter===f?'active':''}" onclick="setFilter('${f}')">${f==='ALL'?'Todos':f}</span>`
-  ).join('');
+  ).join('') +
+  `<button id="toggle-zero-btn" class="btn btn-ghost" style="font-size:11px;padding:4px 10px;margin-left:8px;opacity:${showZeroStock?1:0.6}" onclick="toggleZeroStock()">${showZeroStock?'Ocultar sin stock ('+zeroCount+')':'Ver sin stock ('+zeroCount+')'}</button>`;
 }
 function setFilter(f){currentFilter=f;renderFilterChips();renderTable();}
+function toggleZeroStock(){showZeroStock=!showZeroStock;renderFilterChips();renderTable();}
 
 // ─── STATS ───────────────────────────────────────────────────────────────────
 function renderStats() {
@@ -640,13 +695,22 @@ function renderStats() {
 }
 
 // ─── TABLE ───────────────────────────────────────────────────────────────────
+let showZeroStock = false;
+
 function renderTable() {
   const q=document.getElementById('search-input').value.toLowerCase();
   const filtered=products.filter(p=>{
     const mq=!q||p.nc.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q);
     const mf=currentFilter==='ALL'||p.cadena===currentFilter;
-    return mq&&mf;
+    const mz=showZeroStock||p.stock>0;
+    return mq&&mf&&mz;
   });
+  const zeroCount=products.filter(p=>(currentFilter==='ALL'||p.cadena===currentFilter)&&p.stock===0).length;
+  const toggleBtn=document.getElementById('toggle-zero-btn');
+  if(toggleBtn){
+    toggleBtn.textContent=showZeroStock?`Ocultar sin stock (${zeroCount})`:`Ver sin stock (${zeroCount})`;
+    toggleBtn.style.opacity=showZeroStock?'1':'0.6';
+  }
   const tbody=document.getElementById('stock-tbody');
   document.getElementById('empty-state').style.display=filtered.length?'none':'block';
   if(!filtered.length){tbody.innerHTML='';return;}
