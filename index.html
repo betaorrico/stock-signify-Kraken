@@ -556,6 +556,9 @@ function setSyncStatus(status, label) {
   const lbl = document.getElementById('sync-label');
   dot.className = 'sync-dot ' + status;
   lbl.textContent = label;
+  if(status === 'ok') {
+    document.getElementById('offline-banner').style.display = 'none';
+  }
 }
 
 async function pushToSheets() {
