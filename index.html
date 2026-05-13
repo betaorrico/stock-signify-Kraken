@@ -669,7 +669,7 @@ function renderSidebar() {
         onmouseenter="this.querySelector('.del-btn').style.opacity='1';${!entregada?`this.querySelector('.deliver-btn').style.opacity='1'`:''}"
         onmouseleave="this.querySelector('.del-btn').style.opacity='0';${!entregada?`this.querySelector('.deliver-btn').style.opacity='0'`:''}">
         <span class="tienda-dot" style="${entregada?'background:var(--accent2);':''}${active&&!entregada?'background:var(--accent2);':''}"></span>
-        <span style="flex:1;cursor:pointer;${active?'color:var(--accent2);font-weight:600;':''}${entregada?'text-decoration:line-through;color:var(--muted);':''}" onclick="setTiendaFilter('${t.nombre}')">${t.nombre}${entregada?' ✓':''}</span>
+        <span style="flex:1;cursor:pointer;${active?'color:var(--accent2);font-weight:600;':''}${entregada?'text-decoration:line-through;color:var(--muted);':''}" onclick="${entregada?`deshacerEntrega('${t.nombre}')`:`setTiendaFilter('${t.nombre}')`}">${t.nombre}${entregada?' ✓':''}</span>
         ${cnt?`<span class="tienda-badge">${cnt}</span>`:''}
         ${!entregada?`<button class="deliver-btn" onclick="marcarEntregada('${t.nombre}')" title="Marcar como entregada"
           style="opacity:0;transition:opacity .15s;background:none;border:none;color:var(--accent2);cursor:pointer;font-size:16px;padding:0 4px;font-weight:bold;">✓</button>`:''}
@@ -890,13 +890,19 @@ function saveTienda() {
 function marcarEntregada(nombre) {
   const t = tiendas.find(x=>x.nombre===nombre);
   if (!t) return;
-  if (!confirm(`¿Marcar "${nombre}" como entregada? Los materiales asignados dejarán de contar como reservados.`)) return;
+  if (!confirm(`¿Marcar "${nombre}" como entregada? Los materiales asignados quedarán en el historial y se limpiarán de la columna de asignaciones.`)) return;
   t.entregada = true;
   products.forEach(p => {
-    const qty = p.allocations&&p.allocations[nombre];
+    // Asegurar que allocations es objeto
+    if (typeof p.allocations === 'string') {
+      try { p.allocations = JSON.parse(p.allocations); } catch(e) { p.allocations = {}; }
+    }
+    if (!p.allocations) p.allocations = {};
+    const qty = p.allocations[nombre];
     if (qty && qty > 0) {
       addHistory('entrega', p.nc, p.desc, qty, 'Entregado a: ' + nombre);
     }
+    delete p.allocations[nombre];
   });
   saveLocal();
   pushToSheets();
@@ -904,7 +910,17 @@ function marcarEntregada(nombre) {
   toast(`"${nombre}" marcada como entregada ✓`, 'success');
 }
 
-function deleteTienda(nombre) {
+function deshacerEntrega(nombre) {
+  const t = tiendas.find(x=>x.nombre===nombre);
+  if (!t || !t.entregada) return;
+  if (!confirm(`¿Deshacer entrega de "${nombre}"? La tienda volverá a estado activo. Las asignaciones previas no se restauran automáticamente.`)) return;
+  t.entregada = false;
+  addHistory('deshacer-entrega', '-', nombre, 0, 'Entrega deshecha: ' + nombre);
+  saveLocal();
+  pushToSheets();
+  renderAll();
+  toast(`Entrega de "${nombre}" deshecha`, 'success');
+}
   const hasAlloc=products.some(p=>Object.keys(p.allocations||{}).includes(nombre));
   const msg=hasAlloc?`"${nombre}" tiene stock asignado. ¿Eliminar igualmente?`:`¿Eliminar tienda "${nombre}"?`;
   if(!confirm(msg)) return;
