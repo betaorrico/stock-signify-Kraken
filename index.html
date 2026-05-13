@@ -939,7 +939,11 @@ function renderPedidoTiendas() {
     tiendas.map(t=>`<option value="${t.nombre}">${t.nombre} (${t.cadena})</option>`).join('');
 }
 function openPedidoLineModal() {
-  document.getElementById('pl-nc').innerHTML=products.map(p=>`<option value="${p.nc}">${p.nc} · ${p.desc.slice(0,45)}</option>`).join('');
+  const tiendaNombre = document.getElementById('ped-tienda').value;
+  const tienda = tiendas.find(t=>t.nombre===tiendaNombre);
+  const cadena = tienda ? tienda.cadena : null;
+  const filtered = cadena ? products.filter(p=>p.cadena===cadena&&p.stock>0) : products.filter(p=>p.stock>0);
+  document.getElementById('pl-nc').innerHTML=filtered.map(p=>`<option value="${p.nc}">${p.nc} · ${p.desc.slice(0,45)}</option>`).join('');
   document.getElementById('pl-qty').value=''; updatePedidoLineInfo(); openModal('modal-pedido-line');
 }
 function updatePedidoLineInfo() {
