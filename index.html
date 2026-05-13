@@ -921,6 +921,8 @@ function deshacerEntrega(nombre) {
   renderAll();
   toast(`Entrega de "${nombre}" deshecha`, 'success');
 }
+
+function deleteTienda(nombre) {
   const hasAlloc=products.some(p=>Object.keys(p.allocations||{}).includes(nombre));
   const msg=hasAlloc?`"${nombre}" tiene stock asignado. ¿Eliminar igualmente?`:`¿Eliminar tienda "${nombre}"?`;
   if(!confirm(msg)) return;
